@@ -28,11 +28,15 @@ import {
     .map(record => zipObject(record.keys, record._fields))
     .value()
     console.log('***path****')
-    console.log(path)
-    const returnResult = path.p.segments.map(segment => {
-      const start = segment.start.properties[0]
-      const end = segment.end.properties[0]
-      return `${start}-${end}`
+    console.log(JSON.stringify(path[0].p))
+    const returnResult = path[0].p.segments.map(segment => {
+      console.log(`Segment ${JSON.stringify(segment)}`)
+      const start = segment.start.properties.name;
+      const end = segment.end.properties.name
+      return {
+        start,
+        end
+      }
     })
     console.log(`Returned result set ${JSON.stringify(returnResult)}`);
     return returnResult;

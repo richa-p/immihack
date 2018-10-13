@@ -28,11 +28,15 @@ var getSkillsPath = exports.getSkillsPath = async function getSkillsPath() {
     return (0, _lodash.zipObject)(record.keys, record._fields);
   }).value();
   console.log('***path****');
-  console.log(path);
-  var returnResult = path.p.segments.map(function (segment) {
-    var start = segment.start.properties[0];
-    var end = segment.end.properties[0];
-    return start + '-' + end;
+  console.log(JSON.stringify(path[0].p));
+  var returnResult = path[0].p.segments.map(function (segment) {
+    console.log('Segment ' + JSON.stringify(segment));
+    var start = segment.start.properties.name;
+    var end = segment.end.properties.name;
+    return {
+      start: start,
+      end: end
+    };
   });
   console.log('Returned result set ' + JSON.stringify(returnResult));
   return returnResult;

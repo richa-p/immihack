@@ -13,7 +13,7 @@ app.get("/ping", (req, res, next) => {
 })
 app.post("/skills", async (req, res, next) => {
     console.log(`${JSON.stringify(req.body)}`);
-    const result = getSkillsPath();
+    const result = await getSkillsPath();
     // const result = await neo4j.readTransaction("MATCH (ms:Skill { name: 'pre-dental' }),(cs:Skill { name: 'physiological-sciences' }), p = shortestPath((ms)-[:CAN_LEARN*]-(cs)) RETURN p");
     // console.log(result.records)
 
@@ -41,7 +41,10 @@ app.post("/skills", async (req, res, next) => {
             }
         ]
     };
-    res.json(data);
+    res.json({
+        data,
+        actual: result
+    });
 })
 app.listen(3000, () => {
     console.log('Server listening on port 3000');
