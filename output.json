@@ -1,0 +1,19 @@
+{
+  "paths": [
+    {
+      "from": "html",
+      "to": "java",
+      "path": [
+        "object-oriented-programming"
+      ]
+    },
+    {
+      "from": "algebra",
+      "to": "calculus",
+      "path": [
+        "Integration",
+        "derivatives"
+      ]
+    }
+  ]
+}
