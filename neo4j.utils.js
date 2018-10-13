@@ -1,18 +1,42 @@
-// import {
-//     READ,
-//     WRITE,
-//   } from 'neo4j-driver/lib/v1/driver';
-
+import {
+    READ,
+    WRITE,
+  } from 'neo4j-driver/lib/v1/driver';
+  import {
+    zipObject,
+    chain,
+    pick,
+    reduce,
+  } from 'lodash';
   
   const neo4j = require('neo4j-driver').v1;
-//   const READ = neo4j.lib.v1.driver;
   
   export const neo4jUtil = mode => {
     // added the info for np neo4j instances to test connection from CF
-    const driver = neo4j.driver('bolt://localhost:7687', 'neo4j', 'Monsanto123!');
+    // const driver = neo4j.driver('bolt://localhost', 'neo4j', 'Monsanto123!');
+    // const driver = neo4j.driver('bolt://localhost', 'neo4j', 'Monsanto123!');
+    var driver = neo4j.driver("bolt://localhost", neo4j.auth.basic("neo4j", "Monsanto123!"));
     const session = driver.session(mode);
     return { driver, session };
   };
+
+  export const getSkillsPath = async () => {
+    const result = await readTransaction("MATCH (ms:Skill { name: 'pre-dental' }),(cs:Skill { name: 'physiological-sciences' }), p = shortestPath((ms)-[:CAN_LEARN*]-(cs)) RETURN p");
+    console.log(JSON.stringify(result))
+
+    const path = chain(result.records)
+    .map(record => zipObject(record.keys, record._fields))
+    .value()
+    console.log('***path****')
+    console.log(path)
+    const returnResult = path.p.segments.map(segment => {
+      const start = segment.start.properties[0]
+      const end = segment.end.properties[0]
+      return `${start}-${end}`
+    })
+    console.log(`Returned result set ${JSON.stringify(returnResult)}`);
+    return returnResult;
+  }
   
   
   export const closeSessionUtil = (session, driver) => {
