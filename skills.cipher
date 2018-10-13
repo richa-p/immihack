@@ -1,0 +1,17 @@
+CREATE
+  (:Skill {name: 'pre-dental'),
+  (:Skill {name: 'biological-sciences'),
+  (:Skill {name: 'physiological-sciences'),
+  (:Skill {name: 'dental'),
+  (:Skill {name: 'pre-medical'),
+  (:Skill {name: 'medical');
+
+MATCH
+  (pre-dental:Skill      {name: 'pre-dental'}),
+  (biological-sciences:Skill      {name: 'biological-sciences'}),
+  (physiological-sciences:Skill      {name: 'physiological-sciences'}),
+
+CREATE
+  (pre-dental)-[:CAN_LEARN {type: 'learn'}]->(biological-sciences);
+  (biological-sciences)-[:CAN_LEARN {type: 'learn'}]->(dental);
+  
