@@ -1,6 +1,7 @@
 var express = require("express");
 var app = express();
 var bodyParser = require('body-parser');
+var neo4j = require('./neo4j.utils');
 
 app.use(bodyParser.urlencoded({ extended: true }));
 app.use(bodyParser.json());
@@ -11,6 +12,9 @@ app.get("/ping", (req, res, next) => {
 })
 app.post("/skills", (req, res, next) => {
     console.log(`${JSON.stringify(req.body)}`);
+    const result = neo4j.readTransaction("MATCH (ms:Skill { name: 'pre-dental' }),(cs:Skill { name: 'physiological-sciences' }), p = shortestPath((ms)-[:CAN_LEARN*]-(cs)) RETURN p");
+    console.log(result)
+
     const data = {
         "paths": [
             {
