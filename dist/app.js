@@ -40,6 +40,25 @@ app.post("/skills", async function (req, res, next) {
         actual: result
     });
 });
+
+app.get("/mechanical/:mechanical/hands/:hands/creative/:creative/categories", async function (req, res, next) {
+    console.log(req.params.mechanical + ' - ' + req.params.hands);
+    res.json(["IT", "Farming"]);
+});
+
+app.get("/mechanical/:mechanical/hands/:hands/creative/:creative/jobtitles", async function (req, res, next) {
+    console.log(req.params.mechanical + ' - ' + req.params.hands);
+    var data = [{
+        category: 'Tech',
+        jobs: [{
+            name: 'Help Desk',
+            level: 'Entry Level',
+            other: { data: 'a link or something?' }
+        }]
+    }];
+    res.json(data);
+});
+
 app.listen(3000, function () {
     console.log('Server listening on port 3000');
 });
